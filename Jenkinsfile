@@ -17,19 +17,14 @@ pipeline {
                 echo 'Deploying....'
             }
         }
-       stage('Test on Windows') {
-            agent {
-                label 'windows'
-            }
-            steps {
-                unstash 'app'
-                bat 'make check' 
-            }
-            post {
-                always {
-                    junit '**/target/*.xml'
-                }
-            }
-        }
+       finally {
+        emailext (
+            to: 'amalajeyan@hpe.com',
+            subject: "test",
+            body: "test",
+            mimeType: 'text/html',
+            attachLog: true
+        )
+    }
     }
 }
